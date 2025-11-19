@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+        <link rel="stylesheet"
+            as= "style"
+            onload="this.rel='stylesheet'"
+            href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
+
+        <title>Login</title>
+        <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"> </script>
+    </head>
+
+    <body>
+        <div class="relative flex h-auto min-h-screen w-full flex-col bg-white group/design-root overflow-x-hidden" style="font-family: Inter, 'Noto Sans', sans-serif;">
+            <div class="layout-container flex h-full grow flex-col">
+                <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f2f4] px-10 py-3">
+                    <div class="flex items-center gap-4 text-[#111518]">
+                        <div class="size-4">
+                            <svg viewBox="0 0 48 48" fill = "none" xmlns="http://www.w3.org/2000/svg"> 
+                                <path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-[#111518] text-lg font-bold leading-tight tracking-[-0.015em]">LoanEase</h2>
+                    </div>
+
+                    <div class="flex flex-1 justify-end gap-8">
+                        <div class="flex items-center gap-9">
+                            <a href="#" class="text-[#111518] text-sm font-medium leading-normal"> Personal </a>
+                            <a href="#" class="text-[#111518] text-sm font-medium leading-normal"> Personal </a>
+                            <a href="#" class="text-[#111518] text-sm font-medium leading-normal"> Personal </a>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#1f89e5] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                                <span class="truncate">Get Started</span>
+                            </button>
+                            <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#f0f2f4] text-[#111518] text-sm font-bold leading-normal tracking-[0.015em]">
+                                <span class="truncate">Log in</span>
+                            </button>
+                        </div>
+                    </div>
+                </header>
+                
+                <div class="px-40 flex flex-1 justify-center py-5">
+                    <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+                        <h2 class="text-[#111518] tracking-light text-[28px] font-bold leading-tight px-4 text-center pd-3 pt-5">Welcome back!!</h2>
+                        <div class="flex flex-col items-center gap-4 px-4 py-3">
+                            <label class="flex flex-col w-full max-w-[480px] ">
+                                <input type="text" placeholder="Email" class="from-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111518] focus: outline-0 focus:ring-0 border-none bg-[#f0f2f4] focus: border-none h-14 placeholder: text-[#637788] p-4 text-base font-normal leading-normal" value="" />
+                            </label>
+                        </div>
+                        <div class="flex flex-col items-center gap-4 px-4 py-3">
+                            <label class="flex flex-col w-full max-w-[480px]">
+                                <input type="text" placeholder="Password" class="from-input flex w-full min-w-0 resize-none overflow-hidden rounded-lg text-[#111518] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f4] h-14 placeholder:text-[#637788] p-4 text-base font-normal leading-normal" value="" />
+                            </label>
+                        </div>
+                        <p class="text-[#637788] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center underline">Forgot password?</p>
+                        <div class="flex flex-col items-center px-4 py-3">
+                            <button class="flex min-w-[84px] max-w-[480px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-[#1f89e5] text-white text-base font-bold leading-normal tracking-[0.015em]">
+                                <span class="truncate">Log in</span>
+                            </button>
+
+                        </div>
+                        <p class="text-[#637788] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center underline">Don't have an account? Sign up</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
