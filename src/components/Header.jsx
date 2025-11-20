@@ -1,6 +1,32 @@
 import {Link} from 'react-router-dom';
 
-export default function Header() {
+export default function Header({AdminView}) {
+
+    const isAdminView = AdminView;
+
+    let excludeFromAdminView = null;
+
+    if(!isAdminView){
+        excludeFromAdminView = (
+                <div className="flex gap-2">
+            
+                    <Link to="/register" className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#1f89e5] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+            
+                        <span className="truncate">Get Started</span>
+            
+                    </Link>
+            
+                    <Link to="/login" className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#f0f2f4] text-[#111518] text-sm font-bold leading-normal tracking-[0.015em]">
+            
+                        <span className="truncate">Log in</span>
+            
+                    </Link>
+            
+                </div>
+        );
+    }
+
+
     return(
         <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f2f4] px-10 py-3">
 
@@ -22,7 +48,7 @@ export default function Header() {
 
             <div className="flex flex-1 justify-end gap-8">
             
-                <div className="flex items-center gap-9">
+                {/* <div className="flex items-center gap-9">
             
                     <a href="#" className="text-[#111518] text-sm font-medium leading-normal">Personal</a>
             
@@ -30,23 +56,9 @@ export default function Header() {
             
                     <a href="#" className="text-[#111518] text-sm font-medium leading-normal">Personal</a>
             
-                </div>
+                </div> */}
             
-                <div className="flex gap-2">
-            
-                    <Link to="/register" className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#1f89e5] text-white text-sm font-bold leading-normal tracking-[0.015em]">
-            
-                        <span className="truncate">Get Started</span>
-            
-                    </Link>
-            
-                    <Link to="/login" className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#f0f2f4] text-[#111518] text-sm font-bold leading-normal tracking-[0.015em]">
-            
-                        <span className="truncate">Log in</span>
-            
-                    </Link>
-            
-                </div>
+                {excludeFromAdminView}
             
             </div>
         
