@@ -6,16 +6,118 @@ import AuthForm from '../components/AuthForm';
 
 export default function LoginPage(){
 
-    const [email, setEmail] = useState("");
+    const [formData, setFormData] = useState({
+        email: "", 
+        password: ""
+    });
 
-    const [password, setPassword] = useState("");
-    
+    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleChange = (e) =>{
+        const {name, value} =e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+
+        if(errors[name])
+        {
+            setErrors(prev => ({
+                ...prev,
+                [name]: ""
+            }));
+        }
+    };
+
+
+    const validateForm = () => 
+    {
+        const newErrors = {};
+
+        if(!formData.email.trim()) 
+        {
+            newErrors.email = "Email is required";
+        } 
+        else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) 
+        {
+            newErrors.email = "Please enter a valid email address";
+        }
+
+        if(!formData.password) 
+        {
+            newErrors.password = "Password is required";
+        } 
+        else if(formData.password.length < 6) 
+        {
+            newErrors.password = "Password must be at least 6 characters long";
+        }
+
+        return newErrors;
+    }
+
+
+    const handleLogin = async (e) => {
         e.preventDefault();
-        //login logic here
-        console.log("Login:", { email, password });
+        
+        const newErrors = validateForm();
+
+        if(Object.keys(newErrors).length > 0)
+        {
+            setErrors(newErrors);
+
+            return;
+        }
+
+        setErrors({});
+
+        setLoading(true);
+
+        try
+        {
+            const response = await fetch('http://localhost:2010/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) 
+            {
+                throw new Error(data.message || 'Login failed');
+            }
+
+            //store the token and redirect to dashboard
+            if(data.token)
+            {
+                localStorage.setItem('token', data.token);
+            }
+
+            console.log("Login successful:", data);
+
+            navigate('/dashboard');
+        }
+        catch(error)
+        {
+            setErrors(prev => ({
+                ...prev,
+                submit: error.message || 'An error occurred during login.'
+            }));
+
+            console.error("login error:", error);
+        }
+        finally
+        {
+            setLoading(false);
+        }
+        // console.log("Login:", { email, password });
         // After successful login, navigate to dashboard
     };
 
@@ -24,23 +126,35 @@ export default function LoginPage(){
 
             <Header AdminView={false}/>
 
-            <div className="px-40 flex flex-1 justify-center py-5">
+            <div className="flex flex-1 justify-center py-5 px-4">
 
-                    <div className="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+                <div className="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 flex-1">
 
                         <h2 className="text-[#111518] tracking-light text-[28px] font-bold leading-tight px-4 text-center pd-3 pt-5">Welcome back!!</h2>
 
-                        <form onSubmit={handleLogin}>
-                            <InputField placeholder = "Email" type = "email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        {errors.submit && <div className="text-red-500 text-sm px-4 py-2 bg-red-50 rounded-lg mb-3">{errors.submit}</div>}
 
-                            <InputField placeholder = "Password" type = "password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <form onSubmit={handleLogin}>
+                            <div>
+                                <InputField label="Email" type="email" name="email" value={formData.email} onChange={handleChange} />
+                                {errors.email && <p className="text-red-500 text-xs px-4 mt-1">{errors.email}</p>}
+                            </div>
+
+                            <div>
+                                <InputField label="Password" type="password" name="password" value={formData.password} onChange={handleChange} />
+                                {errors.password && <p className="text-red-500 text-xs px-4 mt-1">{errors.password}</p>}
+                            </div>
 
                             <p className="text-[#637788] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center underline">Forgot password?</p>
 
                             <div className="flex flex-col items-center px-4 py-3">
-                                <button type="submit" className="flex min-w-[84px] max-w-[480px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-[#1f89e5] text-white text-base font-bold leading-normal tracking-[0.015em]">
-                                    <span className="truncate">Log in</span>
+
+                                <button type="submit" disabled={loading} className="flex min-w-[84px] max-w-[480px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-[#1f89e5] text-white text-base font-bold leading-normal tracking-[0.015em] disabled:opacity-50 disabled:cursor-not-allowed">
+                                
+                                    <span className="truncate">{loading ? "Logging in..." : "Log in"}</span>
+                                
                                 </button>
+                            
                             </div>
 
                         </form>
