@@ -4,31 +4,38 @@ import RegisterPage from './pages/registerPage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import DashboardPage from './pages/DashboardPage';
 import OfficerDashboardPage from './pages/OfficerDashboardPage';
-
+import ProtectedRoute from './components/Auth/ProtectedRoute';
 
 function App() {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/Admin" element={<AdminLoginPage />} />
 
-  return (
-    <Router>
+                <Route 
+                    path="/dashboard" 
+                    element={
+                        <ProtectedRoute>
+                            <DashboardPage />
+                        </ProtectedRoute>
+                    } 
+                />
 
-      <Routes>
-      
-        <Route path="/register" element={<RegisterPage />} />
-      
-        <Route path="/login" element={<LoginPage />} />
+                <Route 
+                    path="/loan_officer_dashboard" 
+                    element={
+                        <ProtectedRoute>
+                            <OfficerDashboardPage />
+                        </ProtectedRoute>
+                    } 
+                />
 
-        <Route path="/Admin" element={<AdminLoginPage />} />
-
-        <Route path="/dashboard" element={<DashboardPage />} />
-
-        <Route path="/loan_officer_dashboard" element={<OfficerDashboardPage />} />
-      
-        <Route path="/" element={<Navigate to="/login" />} />
-      
-      </Routes>
-   
-    </Router>
-  );
+                <Route path="/" element={<Navigate to="/login" />} />
+            </Routes>
+        </Router>
+    );
 }
 
-export default App
+export default App;
