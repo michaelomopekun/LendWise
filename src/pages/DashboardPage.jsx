@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Common/Sidebar';
 import Card from '../components/Common/Card';
 import Button from '../components/Common/Button';
-import { useNavigate } from 'react-router-dom';
+import UserProfile from '../components/UserProfile';
+import LoanActivityTable from '../components/LoanActivityTable';
+
 
 export default function DashboardPage() 
 {
@@ -15,8 +17,15 @@ export default function DashboardPage()
         nextRepayment: 0
     });
 
+    const [loanActivityData, setLoanActivityData] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [userProfile, setUserProfile] = useState({
+        name: 'Ethan Harper',
+        customerId: '789012',
+        joinedDate: '2021-11-20'
+    });
 
 
     const handleMenuChange = (menuId) => {
@@ -24,19 +33,16 @@ export default function DashboardPage()
         console.log('Active menu:', menuId);
     };
 
-    useEffect(() => {
-        fetchLoanSummary();
-    }, []);
+    const handleLoansLoaded = (loans) => {
+        setLoanActivityData(loans);
+    };
 
-    const fetchLoanSummary = async () => {
+    const fetchLoanSummary = useCallback(async () => {
         setLoading(true);
         setError(null);
 
-        try
-        {
+        try {
             const token = localStorage.getItem('token');
-
-            console.log("Fetching loan summary with token:", token);
 
             const response = await fetch('http://localhost:2010/api/loans/summary', {
                 method: 'GET',
@@ -46,17 +52,13 @@ export default function DashboardPage()
                 }
             });
 
-            if (!response.ok) 
-            {
+            if (!response.ok) {
                 throw new Error('Could not get loan summary');
             }
 
             const data = await response.json();
             
-            console.log("Loan summary data:", data);
-
-            if (data.data) 
-            {
+            if (data.data) {
                 setLoanSummary({
                     totalLoans: data.data.totalLoans || 0,
                     outstandingBalance: data.data.outstandingBalance || 0,
@@ -64,17 +66,18 @@ export default function DashboardPage()
                 });
             }
         }
-        catch(error)
-        {
+        catch(error) {
             setError(error.message);
-
             console.error("Error fetching loan summary:", error);
         }
-        finally
-        {
+        finally {
             setLoading(false);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        fetchLoanSummary();
+    }, [fetchLoanSummary]);
 
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-US', {
@@ -100,6 +103,13 @@ export default function DashboardPage()
                             <p className="text-[#637788] text-sm font-normal leading-normal">Manage and view your loan information</p>
                         </div>
                     </div>
+
+                    {/* User Profile */}
+                    <UserProfile 
+                        userName={userProfile.name}
+                        customerId={userProfile.customerId}
+                        joinedDate={userProfile.joinedDate}
+                    />
 
                     {/* Error Message */}
                     {error && (
@@ -147,6 +157,10 @@ export default function DashboardPage()
                     <div className="flex px-4 py-3 justify-start">
                         <Button size="lg">Apply for Loan</Button>
                     </div>
+
+                    {/* Recent Loan Activity */}
+                    <h2 className="text-[#111518] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Recent Loan Activity</h2>
+                    <LoanActivityTable loans={loanActivityData} loading={loading} onLoansLoad={handleLoansLoaded} />
                 </div>
             </div>
         </div>
