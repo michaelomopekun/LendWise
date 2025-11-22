@@ -35,7 +35,7 @@ export default function Sidebar({ activeMenu = 'dashboard', onMenuChange })
                             return (
                                 <button
                                     key={item.id}
-                                    onClick={() => handleMenuClick(item.id)}
+                                    onClick={() => handleMenuClick(item.id)} 
                                     className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
                                         active === item.id 
                                             ? 'bg-[#f0f2f4]' 

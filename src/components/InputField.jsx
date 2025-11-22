@@ -1,8 +1,8 @@
-export default function InputField({label, placeholder, type = "text", value, onChange, name}){
+export default function InputField({label, placeholder, type = "text", value, onChange, name, className="flex flex-col items-center gap-4 px-4 py-3"}){
 
     return(
     
-        <div className="flex flex-col items-center gap-4 px-4 py-3">
+        <div className={className}>
         
             <label className="flex flex-col w-full max-w-[480px] ">
     

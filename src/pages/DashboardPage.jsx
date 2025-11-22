@@ -155,7 +155,7 @@ export default function DashboardPage()
 
                     {/* Apply Button */}
                     <div className="flex px-4 py-3 justify-start">
-                        <Button size="lg">Apply for Loan</Button>
+                        <Button size="lg" onClick={() => navigate('/loan_request')}>Apply for Loan</Button>
                     </div>
 
                     {/* Recent Loan Activity */}

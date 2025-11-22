@@ -21,11 +21,11 @@ export default function LoanApplicationPage()
     const [loading, setLoading] = useState(false);
 
     const loanTypes = [
-        { value: 'personal-loan', label: 'Personal Loan', id: 1 },
-        { value: 'home-loan', label: 'Home Loan', id: 2 },
-        { value: 'auto-loan', label: 'Auto Loan', id: 3 },
-        { value: 'education-loan', label: 'Education Loan', id: 4 },
-        { value: 'business-loan', label: 'Business Loan', id: 5 }
+        { value: 'personal-loan', label: 'Personal Loan', id: "58651229-293c-4637-a4d0-4be447109882" },
+        { value: 'home-loan', label: 'Home Loan', id: "78536700-9480-4d7a-914c-0a85902413c1" },
+        { value: 'auto-loan', label: 'Auto Loan', id: "0a3cfdaa-ccca-4526-9afb-f2a62884baea" },
+        { value: 'education-loan', label: 'Education Loan', id: "306b9e94-8eb7-4579-8a6f-07c8386bb381" },
+        { value: 'business-loan', label: 'Business Loan', id: "1f32976c-a6d0-4adf-8af2-3f417ebc77c6" }
     ];
 
     const handleChange = (e) => {
@@ -210,16 +210,19 @@ export default function LoanApplicationPage()
                         </div>
                         {errors.loanType && <p className="text-red-500 text-xs px-4">{errors.loanType}</p>}
 
-                        <InputField
-                            label="Loan Term (Months)"
-                            name="loanTerm"
-                            type="number"
-                            placeholder="Enter Loan Term"
-                            value={formData.loanTerm}
-                            onChange={handleChange}
-                        />
-                        {errors.loanTerm && <p className="text-red-500 text-xs px-4">{errors.loanTerm}</p>}
-                        
+                        <div className='flex flex-col items-center w-full '>
+                            <InputField
+                                label="Loan Term (Months)"
+                                name="loanTerm"
+                                type="number"
+                                placeholder="Enter Loan Term"
+                                value={formData.loanTerm}
+                                onChange={handleChange}
+                            />
+
+                            {errors.loanTerm && <p className="text-red-500 text-xs mt-1 max-w-[480px] w-full px-4">{errors.loanTerm}</p>}
+                            
+                        </div>
 
                         <div className="flex flex-col items-center gap-4 px-4 py-3">
                             <label className="flex flex-col w-full max-w-[480px]">
@@ -234,7 +237,7 @@ export default function LoanApplicationPage()
                             </label>
                         </div>
 
-                        <div className="flex px-4 py-3 justify-end">
+                        <div className="flex px-4 py-3 justify-center">
                             <Button type="submit" size="lg" disabled={loading}>
                                 {loading ? 'Submitting...' : 'Submit Application'}
                             </Button>

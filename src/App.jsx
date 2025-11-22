@@ -5,6 +5,7 @@ import AdminLoginPage from './pages/AdminLoginPage';
 import DashboardPage from './pages/DashboardPage';
 import OfficerDashboardPage from './pages/OfficerDashboardPage';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
+import LoanApplicationPage from './pages/LoanApplicationPage';
 
 function App() {
     return (
@@ -28,6 +29,15 @@ function App() {
                     element={
                         <ProtectedRoute>
                             <OfficerDashboardPage />
+                        </ProtectedRoute>
+                    } 
+                />
+
+                <Route 
+                    path="/loan_request" 
+                    element={
+                        <ProtectedRoute>
+                            <LoanApplicationPage />
                         </ProtectedRoute>
                     } 
                 />
