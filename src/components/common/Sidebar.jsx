@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { HouseIcon, UsersIcon, HandCoinsIcon, CreditCardIcon, PresentationChartIcon, GearIcon } from './Icons';
 
 
@@ -6,18 +7,20 @@ import { HouseIcon, UsersIcon, HandCoinsIcon, CreditCardIcon, PresentationChartI
 export default function Sidebar({ activeMenu = 'dashboard', onMenuChange })
 {
     const [active, setActive] = useState(activeMenu);
+    const navigate = useNavigate();
 
     const menuItems = [
-        { id: 'dashboard', label: 'Dashboard', icon: HouseIcon },
-        { id: 'customers', label: 'Customers', icon: UsersIcon },
-        { id: 'loans', label: 'Loans', icon: HandCoinsIcon },
-        { id: 'payments', label: 'Payments', icon: CreditCardIcon },
-        { id: 'reports', label: 'Reports', icon: PresentationChartIcon }
+        { id: 'dashboard', label: 'Dashboard', icon: HouseIcon, path: '/dashboard' },
+        { id: 'profile', label: 'Profile', icon: UsersIcon, path: '/profile' },
+        { id: 'loans', label: 'Loans', icon: HandCoinsIcon, path: '/loan_request' },
+        { id: 'repayments', label: 'Repayments', icon: CreditCardIcon, path: '/repayment' },
+        { id: 'reports', label: 'Reports', icon: PresentationChartIcon, path: '/reports' }
     ];
 
-    const handleMenuClick = (menuId) =>{
+    const handleMenuClick = (menuId, path) =>{
         setActive(menuId);
         onMenuChange?.(menuId);
+        navigate(path);
     };
 
     return(
@@ -35,7 +38,7 @@ export default function Sidebar({ activeMenu = 'dashboard', onMenuChange })
                             return (
                                 <button
                                     key={item.id}
-                                    onClick={() => handleMenuClick(item.id)} 
+                                    onClick={() => handleMenuClick(item.id, item.path)} 
                                     className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
                                         active === item.id 
                                             ? 'bg-[#f0f2f4]' 
@@ -54,7 +57,7 @@ export default function Sidebar({ activeMenu = 'dashboard', onMenuChange })
 
                 {/* Settings */}
                 <div className="flex flex-col gap-1">
-                    <button className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#f5f5f5] transition-colors">
+                    <button className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#f5f5f5] transition-colors" onClick={() => navigate('/settings')}>
                         <div className="text-[#111518]">
                             <GearIcon size={24} />
                         </div>

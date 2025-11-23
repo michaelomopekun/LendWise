@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
+// import Header from '../components/AuthPageHeader';
+import CustomerHeader from '../components/CustomerHeader';
 import Sidebar from '../components/Common/Sidebar';
 import Button from '../components/Common/Button';
 import InputField from '../components/InputField';
@@ -21,11 +22,11 @@ export default function LoanApplicationPage()
     const [loading, setLoading] = useState(false);
 
     const loanTypes = [
-        { value: 'personal-loan', label: 'Personal Loan', id: "58651229-293c-4637-a4d0-4be447109882" },
-        { value: 'home-loan', label: 'Home Loan', id: "78536700-9480-4d7a-914c-0a85902413c1" },
-        { value: 'auto-loan', label: 'Auto Loan', id: "0a3cfdaa-ccca-4526-9afb-f2a62884baea" },
-        { value: 'education-loan', label: 'Education Loan', id: "306b9e94-8eb7-4579-8a6f-07c8386bb381" },
-        { value: 'business-loan', label: 'Business Loan', id: "1f32976c-a6d0-4adf-8af2-3f417ebc77c6" }
+        { label: 'Personal Loan', value: "58651229-293c-4637-a4d0-4be447109882" },
+        { label: 'Home Loan', value: "78536700-9480-4d7a-914c-0a85902413c1" },
+        { label: 'Auto Loan', value: "0a3cfdaa-ccca-4526-9afb-f2a62884baea" },
+        { label: 'Education Loan', value: "306b9e94-8eb7-4579-8a6f-07c8386bb381" },
+        { label: 'Business Loan', value: "1f32976c-a6d0-4adf-8af2-3f417ebc77c6" }
     ];
 
     const handleChange = (e) => {
@@ -106,16 +107,16 @@ export default function LoanApplicationPage()
                 return;
             }
 
-            const response = await fetch('http://localhost:2010/api/loans/create', {
+            const response = await fetch('http://localhost:2010/api/loans', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    loanAmount: parseFloat(formData.loanAmount),
+                    amount: parseFloat(formData.loanAmount),
                     loanTypeId: formData.loanType,
-                    tenureMonths: parseInt(formData.loanTerm),
+                    tenureMonth: parseInt(formData.loanTerm),
                     // notes: formData.notes
                 })
             });
@@ -165,7 +166,7 @@ export default function LoanApplicationPage()
             <Sidebar activeMenu={activeMenu} onMenuChange={handleMenuChange} />
 
             <div className="flex-1 overflow-auto flex flex-col">
-                <Header AdminView={false} />
+                <CustomerHeader/>
 
                 <div className="flex-1 overflow-auto">
                     <div className="flex flex-wrap justify-between gap-3 p-4">
@@ -188,7 +189,7 @@ export default function LoanApplicationPage()
                             value={formData.loanAmount}
                             onChange={handleChange}
                         />
-                        {errors.loanAmount && <p className="text-red-500 text-xs px-4">{errors.loanAmount}</p>}
+                        {errors.loanAmount && <p className="text-red-500 text-xs px-4 max-w-[480px] mx-auto">{errors.loanAmount}</p>}
 
                         <div className="flex flex-col items-center gap-4 px-4 py-3">
                             <label className="flex flex-col w-full max-w-[480px]">
@@ -201,28 +202,25 @@ export default function LoanApplicationPage()
                                 >
                                     <option value="">Select Loan Type</option>
                                     {loanTypes.map(type => (
-                                        <option key={type.id} value={type.value}>
+                                        <option key={type.value} value={type.value}>
                                             {type.label}
                                         </option>
                                     ))}
                                 </select>
                             </label>
                         </div>
-                        {errors.loanType && <p className="text-red-500 text-xs px-4">{errors.loanType}</p>}
+                        {errors.loanType && <p className="text-red-500 text-xs px-4 max-w-[480px] mx-auto">{errors.loanType}</p>}
 
-                        <div className='flex flex-col items-center w-full '>
-                            <InputField
-                                label="Loan Term (Months)"
-                                name="loanTerm"
-                                type="number"
-                                placeholder="Enter Loan Term"
-                                value={formData.loanTerm}
-                                onChange={handleChange}
-                            />
-
-                            {errors.loanTerm && <p className="text-red-500 text-xs mt-1 max-w-[480px] w-full px-4">{errors.loanTerm}</p>}
-                            
-                        </div>
+                        <InputField
+                            label="Loan Term (Months)"
+                            name="loanTerm"
+                            type="number"
+                            placeholder="Enter Loan Term"
+                            value={formData.loanTerm}
+                            onChange={handleChange}
+                        />
+                        {errors.loanTerm && <p className="text-red-500 text-xs px-4 max-w-[480px] mx-auto">{errors.loanTerm}</p>}
+                        
 
                         <div className="flex flex-col items-center gap-4 px-4 py-3">
                             <label className="flex flex-col w-full max-w-[480px]">

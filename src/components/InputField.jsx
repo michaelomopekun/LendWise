@@ -4,7 +4,7 @@ export default function InputField({label, placeholder, type = "text", value, on
     
         <div className={className}>
         
-            <label className="flex flex-col w-full max-w-[480px] ">
+            <label className="flex flex-col w-full max-w-[480px]">
     
                 {label && <p className="text-[#111518] text-base font-medium leading-normal pb-2">{label}</p> }
     

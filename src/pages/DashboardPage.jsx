@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import Header from '../components/Header';
+// import Header from '../components/AuthPageHeader';
+import CustomerHeader from '../components/CustomerHeader';
+import {useNavigate} from 'react-router-dom';
 import Sidebar from '../components/Common/Sidebar';
 import Card from '../components/Common/Card';
 import Button from '../components/Common/Button';
@@ -9,6 +11,8 @@ import LoanActivityTable from '../components/LoanActivityTable';
 
 export default function DashboardPage() 
 {
+    const navigate = useNavigate();
+
     const [activeMenu, setActiveMenu] = useState('dashboard');
 
     const [loanSummary, setLoanSummary] = useState({
@@ -22,7 +26,7 @@ export default function DashboardPage()
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [userProfile, setUserProfile] = useState({
-        name: 'Ethan Harper',
+        name: 'Galaxia✨',
         customerId: '789012',
         joinedDate: '2021-11-20'
     });
@@ -94,7 +98,7 @@ export default function DashboardPage()
 
             {/* Main Content */}
             <div className="flex-1 overflow-auto flex flex-col">
-                <Header AdminView={false} />
+                <CustomerHeader/>
                 
                 <div className="flex-1 overflow-auto">
                     <div className="flex flex-wrap justify-between gap-3 p-4">
