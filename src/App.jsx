@@ -6,9 +6,15 @@ import DashboardPage from './pages/DashboardPage';
 import OfficerDashboardPage from './pages/OfficerDashboardPage';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 import LoanApplicationPage from './pages/LoanApplicationPage';
-import LoanRepaymentPage from './pages/LoanRepaymentPage';
+import ActiveLoanPage from './pages/ActiveLoanPage';
+import RepayLoanPage from './pages/RepayLoanPage';
+import LoanPage from './pages/LoanPage';
+import LoanDetailsPage from './pages/LoanDetailsPage';
+import ProfilePage from './pages/ProfilePage';
 
-function App() {
+
+function App() 
+{
     return (
         <Router>
             <Routes>
@@ -47,9 +53,45 @@ function App() {
                     path="/repayment" 
                     element={
                         <ProtectedRoute>
-                            <LoanRepaymentPage />
+                            <ActiveLoanPage />
                         </ProtectedRoute>
                     } 
+                />
+
+                <Route
+                    path="/repayment/:loanId"
+                    element={
+                        <ProtectedRoute>
+                            <RepayLoanPage />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/loans"
+                    element={
+                        <ProtectedRoute>
+                            <LoanPage />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/loan/:loanId"
+                    element={
+                        <ProtectedRoute>
+                            <LoanDetailsPage />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/profile"
+                    element={
+                        <ProtectedRoute>
+                            <ProfilePage />
+                        </ProtectedRoute>
+                    }
                 />
 
                 <Route path="/" element={<Navigate to="/login" />} />

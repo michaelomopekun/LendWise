@@ -12,7 +12,7 @@ export default function Sidebar({ activeMenu = 'dashboard', onMenuChange })
     const menuItems = [
         { id: 'dashboard', label: 'Dashboard', icon: HouseIcon, path: '/dashboard' },
         { id: 'profile', label: 'Profile', icon: UsersIcon, path: '/profile' },
-        { id: 'loans', label: 'Loans', icon: HandCoinsIcon, path: '/loan_request' },
+        { id: 'loans', label: 'Loans', icon: HandCoinsIcon, path: '/loans' },
         { id: 'repayments', label: 'Repayments', icon: CreditCardIcon, path: '/repayment' },
         { id: 'reports', label: 'Reports', icon: PresentationChartIcon, path: '/reports' }
     ];
@@ -29,7 +29,7 @@ export default function Sidebar({ activeMenu = 'dashboard', onMenuChange })
                 
                 {/* Logo/Title */}
                 <div className="flex flex-col gap-4">
-                    <h1 className="text-[#111518] text-base font-medium leading-normal">LendWise</h1>
+                    {/* <h1 className="text-[#111518] text-base font-medium leading-normal">LendWise</h1> */}
                     
                     {/* Menu Items */}
                     <div className="flex flex-col gap-2">

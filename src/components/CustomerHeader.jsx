@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { LogoutIcon } from './Common/Icons';
 
 export default function CustomerHeader() 
 {
@@ -18,6 +19,15 @@ export default function CustomerHeader()
     const handleNavClick = (path) => {
         navigate(path);
         setIsMenuOpen(false);
+    };
+
+    const handleLogout = () => {
+        // Clear token and user data
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        
+        // Redirect to login
+        navigate('/login');
     };
 
     return (
@@ -42,7 +52,7 @@ export default function CustomerHeader()
                     
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-9">
-                        {navigationLinks.map(link => (
+                        {/* {navigationLinks.map(link => (
                             <button
                                 key={link.path}
                                 onClick={() => navigate(link.path)}
@@ -50,7 +60,8 @@ export default function CustomerHeader()
                             >
                                 {link.label}
                             </button>
-                        ))}
+
+                        ))} */}
                     </div>
 
                     {/* User Avatar */}
@@ -59,6 +70,15 @@ export default function CustomerHeader()
                         style={{ backgroundImage: `url("${userAvatar}")` }}
                         onClick={() => navigate('/profile')}
                     ></div>
+
+                {/* Desktop Logout Button */}
+                <button
+                    onClick={handleLogout}
+                    className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-red-50 text-red-600 text-sm font-medium hover:bg-red-100 transition-colors"
+                >
+                    <LogoutIcon size={16} />
+                    Logout
+                </button>
 
                     {/* Hamburger Menu Button - Mobile Only */}
                     <button
@@ -73,11 +93,12 @@ export default function CustomerHeader()
                 </div>
             </header>
 
+
             {/* Mobile Navigation Menu */}
             {isMenuOpen && (
                 <div className="md:hidden bg-white border-b border-solid border-b-[#f0f2f4]">
                     <div className="flex flex-col px-6 py-4 gap-4">
-                        {navigationLinks.map(link => (
+                        {/* {navigationLinks.map(link => (
                             <button
                                 key={link.path}
                                 onClick={() => handleNavClick(link.path)}
@@ -85,7 +106,14 @@ export default function CustomerHeader()
                             >
                                 {link.label}
                             </button>
-                        ))}
+                        ))} */}
+                        <button
+                            onClick={handleLogout}
+                            className="text-red-600 text-sm font-medium leading-normal hover:text-red-700 transition-colors text-left border-t border-[#f0f2f4] pt-4 flex items-center gap-2"
+                        >
+                            <LogoutIcon size={16} />
+                            Logout
+                        </button>
                     </div>
                 </div>
             )}

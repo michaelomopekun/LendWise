@@ -9,7 +9,7 @@ export default function LoanActivityTable({ loans = [], loading = false, onLoans
     const getStatusButtonColor = (status) => {
         const normalizedStatus = status?.toLowerCase();
         switch(normalizedStatus) {
-            case 'paid':
+            case 'completed':
                 return 'bg-green-100 text-green-800';
             case 'active':
                 return 'bg-[#f0f2f4] text-[#111518]';
@@ -76,7 +76,9 @@ export default function LoanActivityTable({ loans = [], loading = false, onLoans
             const data = await response.json();
             
             if (data.loans && Array.isArray(data.loans)) {
-                const formattedLoans = data.loans.map(loan => ({
+                const formattedLoans = data.loans
+                .slice(0, 5)
+                .map(loan => ({
                     id: loan.id,
                     type: loan.loanTypeName || 'Unknown Loan',
                     amount: formatCurrency(loan.amount),

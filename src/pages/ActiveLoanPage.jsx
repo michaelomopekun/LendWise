@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomerHeader from '../components/CustomerHeader';
 import Sidebar from '../components/Common/Sidebar';
+import LoanCardSkeleton from '../components/Common/LoanCardSkeleton';
 
-export default function RepaymentPage() {
+export default function ActiveLoanPage() {
     const navigate = useNavigate();
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [activeMenu, setActiveMenu] = useState('repayments');
@@ -58,7 +59,7 @@ export default function RepaymentPage() {
     };
 
     const handleRepay = (loanId) => {
-        navigate(`/repay/${loanId}`);
+        navigate(`/repayment/${loanId}`);
     };
 
     const formatCurrency = (amount) => {
@@ -104,8 +105,10 @@ export default function RepaymentPage() {
                     )}
 
                     {loading ? (
-                        <div className="p-4 text-center">
-                            <p className="text-[#4e7597] text-sm font-medium">Loading loans...</p>
+                        <div className="space-y-4 p-4">
+                            {[...Array(3)].map((_, index) => (
+                                <LoanCardSkeleton key={index} />
+                            ))}
                         </div>
                     ) : loans.length === 0 ? (
                         <div className="p-4 text-center">
@@ -121,7 +124,7 @@ export default function RepaymentPage() {
                                     <div className="flex flex-[2_2_0px] flex-col gap-4">
                                         <div className="flex flex-col gap-1">
                                             <p className="text-[#111518] text-base font-bold leading-tight">
-                                                Loan ID: {loan.id ?.substring(0, 8)}...
+                                                Loan ID: {loan.id?.substring(0, 8)}...
                                             </p>
                                             <p className="text-[#637788] text-sm font-normal leading-normal">
                                                 Loan Type: {loan.loanTypeName} | Amount: {formatCurrency(loan.amount)} | Outstanding Balance: {formatCurrency(loan.outStandingBalance)} | Interest Rate: {loan.interestRate}% | Tenure: {loan.tenure_month} months | Status: {loan.status}
