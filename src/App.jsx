@@ -3,7 +3,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/registerPage';
 import BankLoginPage from './pages/BankLoginPage';
 import DashboardPage from './pages/DashboardPage';
-import OfficerDashboardPage from './pages/OfficerDashboardPage';
+import BankDashboardPage from './pages/BankDashboardPage';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 import LoanApplicationPage from './pages/LoanApplicationPage';
 import ActiveLoanPage from './pages/ActiveLoanPage';
@@ -34,10 +34,10 @@ function App()
                 />
 
                 <Route 
-                    path="/loan_officer_dashboard" 
+                    path="/bankDashboard" 
                     element={
                         <ProtectedRoute>
-                            <OfficerDashboardPage />
+                            <BankDashboardPage />
                         </ProtectedRoute>
                     } 
                 />

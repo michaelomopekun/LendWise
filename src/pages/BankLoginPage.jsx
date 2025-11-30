@@ -76,14 +76,14 @@ export default function BankLoginPage(){
 
         try
         {
-            const response = await fetch('http://localhost:2010/api/auth/officer-login', {
+            const response = await fetch('http://localhost:2010/api/auth/bankLogin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: formData.email,
-                    password: formData.password,
+                    contactEmail: formData.email,
+                    passwordHash: formData.password,
                 }),
             });
 
@@ -102,7 +102,7 @@ export default function BankLoginPage(){
 
             console.log("Login successful:", data);
 
-            navigate('/loan_officer_dashboard');
+            navigate('/bankDashboard');
         }
         catch(error)
         {
