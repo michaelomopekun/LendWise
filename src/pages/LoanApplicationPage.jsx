@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import Header from '../components/AuthPageHeader';
 import CustomerHeader from '../components/CustomerHeader';
@@ -19,15 +19,66 @@ export default function LoanApplicationPage()
     });
 
     const [errors, setErrors] = useState({});
+    const [loanTypes, setLoanTypes] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const loanTypes = [
-        { label: 'Personal Loan', value: "58651229-293c-4637-a4d0-4be447109882" },
-        { label: 'Home Loan', value: "78536700-9480-4d7a-914c-0a85902413c1" },
-        { label: 'Auto Loan', value: "0a3cfdaa-ccca-4526-9afb-f2a62884baea" },
-        { label: 'Education Loan', value: "306b9e94-8eb7-4579-8a6f-07c8386bb381" },
-        { label: 'Business Loan', value: "1f32976c-a6d0-4adf-8af2-3f417ebc77c6" }
-    ];
+    useEffect(() => {
+        fetchLoanTypes();
+    }, []);
+
+    const fetchLoanTypes = async () => {
+        
+        setLoading(true);
+
+        try
+        {
+            const token = localStorage.getItem('token');
+
+            if (!token) 
+            {
+                setErrors(prev => ({
+                    ...prev,
+                    submit: 'Authentication token not found. Please log in again.'
+                }));
+                setLoading(false);
+                return;
+            }
+
+            const response = await fetch(`http://localhost:2010/api/loans/types`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) 
+            {
+                throw new Error(data.message || 'Failed to fetch loan types');
+            }
+
+            console.log("Loan Types fetched successfully:", data);
+
+            // Handle different API response formats
+            setLoanTypes(Array.isArray(data) ? data : (data.loanTypes || []));
+
+        }
+        catch(error)
+        {
+            console.error("Fetch loan types error:", error);
+            setErrors(prev => ({
+                ...prev,
+                submit: error.message || 'Failed to load loan types'
+            }));
+        }
+        finally
+        {
+            setLoading(false);
+        }
+
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -70,13 +121,6 @@ export default function LoanApplicationPage()
             newErrors.loanTerm = 'Please enter a valid loan term';
         }
 
-        // if (!formData.originationDate.trim()) {
-        //     newErrors.originationDate = 'Origination date is required';
-        // }
-
-        // if (!formData.loanOfficer.trim()) {
-        //     newErrors.loanOfficer = 'Loan officer name is required';
-        // }
         return newErrors;
     };
 
@@ -115,9 +159,8 @@ export default function LoanApplicationPage()
                 },
                 body: JSON.stringify({
                     amount: parseFloat(formData.loanAmount),
-                    loanTypeId: formData.loanType,
+                    loan_typeId: formData.loanType,
                     tenureMonth: parseInt(formData.loanTerm),
-                    // notes: formData.notes
                 })
             });
 
@@ -135,7 +178,6 @@ export default function LoanApplicationPage()
                 loanAmount: '',
                 loanType: '',
                 loanTerm: '',
-                // originationDate: '',
                 notes: ''
             });
 
@@ -202,8 +244,8 @@ export default function LoanApplicationPage()
                                 >
                                     <option value="">Select Loan Type</option>
                                     {loanTypes.map(type => (
-                                        <option key={type.value} value={type.value}>
-                                            {type.label}
+                                        <option key={type.id} value={type.id}>
+                                            {type.name}
                                         </option>
                                     ))}
                                 </select>

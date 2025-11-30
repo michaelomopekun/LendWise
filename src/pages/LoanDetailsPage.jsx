@@ -181,9 +181,10 @@ export default function LoanDetailsPage() {
     const getRepaymentProgress = () => {
         if (!loanDetails) return 0;
         const principal = parseFloat(loanDetails.amount || 0);
+        const interest = parseFloat((loanDetails.interestRate/100)*loanDetails.amount);
         const outstanding = parseFloat(loanDetails.outstandingBalance || 0);
         if (principal === 0) return 0;
-        return Math.round(((principal - outstanding) / principal) * 100);
+        return Math.round((((principal + interest) - outstanding) / (principal + interest)) * 100);
     };
 
     const getStatusColor = (status) => {
@@ -367,7 +368,7 @@ export default function LoanDetailsPage() {
                         </div>
                         <div className="col-span-2 grid grid-cols-subgrid border-t border-t-[#d0dce7] py-5">
                             <p className="text-[#4e7597] text-sm font-normal leading-normal">Amount Paid</p>
-                            <p className="text-[#0e151b] text-sm font-normal leading-normal">{formatCurrency(parseFloat(loanDetails.amount) - parseFloat(loanDetails.outstandingBalance))}</p>
+                            <p className="text-[#0e151b] text-sm font-normal leading-normal">{formatCurrency((parseFloat((loanDetails.interestRate/100)*loanDetails.amount)) + parseFloat(loanDetails.amount) - parseFloat(loanDetails.outstandingBalance))}</p>
                         </div>
                     </div>
 
