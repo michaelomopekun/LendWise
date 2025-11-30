@@ -4,7 +4,7 @@ import Header from '../components/AuthPageHeader';
 import InputField from '../components/InputField';
 import AuthForm from '../components/AuthForm';
 
-export default function LoginPage(){
+export default function BankLoginPage(){
 
     const [formData, setFormData] = useState({
         email: "", 
@@ -130,7 +130,7 @@ export default function LoginPage(){
 
                 <div className="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 flex-1">
 
-                        <h2 className="text-[#111518] tracking-light text-[28px] font-bold leading-tight px-4 text-center pd-3 pt-5">Loan Officer Login</h2>
+                        <h2 className="text-[#111518] tracking-light text-[28px] font-bold leading-tight px-4 text-center pd-3 pt-5">Bank's Loan Officer Login</h2>
 
                         {errors.submit && <div className="text-red-500 text-sm px-4 py-2 bg-red-50 rounded-lg mb-3">{errors.submit}</div>}
 
@@ -159,10 +159,10 @@ export default function LoginPage(){
 
                         </form>
 
-                        {/* <p className="text-[#637788] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center underline cursor-pointer">
+                        <p className="text-[#637788] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center underline cursor-pointer">
                             Don't have an account? 
-                            <a href="/register" className="text-[#1f89e5]">Sign up</a>
-                        </p> */}
+                            <a href="/onboardBank" className="text-[#1f89e5]">Sign up</a>
+                        </p>
 
                     </div>
                     

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/registerPage';
-import AdminLoginPage from './pages/AdminLoginPage';
+import BankLoginPage from './pages/BankLoginPage';
 import DashboardPage from './pages/DashboardPage';
 import OfficerDashboardPage from './pages/OfficerDashboardPage';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
@@ -11,6 +11,7 @@ import RepayLoanPage from './pages/RepayLoanPage';
 import LoanPage from './pages/LoanPage';
 import LoanDetailsPage from './pages/LoanDetailsPage';
 import ProfilePage from './pages/ProfilePage';
+import BankRegisterPage from './pages/BankRegisterPage';
 
 
 function App() 
@@ -20,7 +21,8 @@ function App()
             <Routes>
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/Admin" element={<AdminLoginPage />} />
+                <Route path="/bankLogin" element={<BankLoginPage />} />
+                <Route path="/onboardBank" element={<BankRegisterPage />} />
 
                 <Route 
                     path="/dashboard" 

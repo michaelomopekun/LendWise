@@ -26,7 +26,7 @@ export default function Sidebar({ activeMenu = 'dashboard', onMenuChange })
     return(
         <div className="w-80 bg-white border-r border-[#dce1e5] flex flex-col">
             <div className="flex h-full min-h-[700px] flex-col justify-between bg-white p-4">
-                
+            
                 {/* Logo/Title */}
                 <div className="flex flex-col gap-4">
                     {/* <h1 className="text-[#111518] text-base font-medium leading-normal">LendWise</h1> */}

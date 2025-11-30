@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/AuthPageHeader';
 import InputField from '../components/InputField';
@@ -8,12 +8,14 @@ import AuthForm from '../components/AuthForm';
 
 export default function RegisterPage()
 {
+    const [banks, setBanks] = useState([]);
 
     const [formData, setFormData] = useState({
         firstName: "", 
         lastName: "", 
         email: "", 
         phoneNumber: "",
+        bankId: "",
         password: "", 
         confirmPassword: "",
         income: "",
@@ -70,6 +72,11 @@ export default function RegisterPage()
         else if(!/^\d{10,}$/.test(formData.phoneNumber.replace(/\D/g, ''))) 
         {
             newErrors.phoneNumber = "Please enter a valid phone number";
+        }
+
+        if(!formData.bankId)
+        {
+            newErrors.bankId = "Bank name is required";
         }
 
         if(!formData.password) 
@@ -136,8 +143,9 @@ export default function RegisterPage()
                     firstName: formData.firstName,
                     lastName: formData.lastName,
                     email: formData.email,
+                    bankId: formData.bankId,
                     phoneNumber: formData.phoneNumber,
-                    password: formData.password,
+                    passwordHash: formData.password,
                     occupation: formData.occupation,
                     income: parseInt(formData.income)
                 }),
@@ -167,6 +175,47 @@ export default function RegisterPage()
                 submit: error.message || 'An error occurred during registration.'
             }));
 
+            console.error("Registration error:", error);
+        }
+        finally
+        {
+            setLoading(false);
+        }
+
+    };
+
+    useEffect(() => {
+        fetchBanks();
+    }, []);
+
+    const fetchBanks = async () => {
+        
+        setLoading(true);
+
+
+        try
+        {
+            const response = await fetch('http://localhost:2010/api/banks', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) 
+            {
+                throw new Error(data.message || 'Failed to fetch banks');
+            }
+
+            console.log("Banks fetched successfully:", data);
+
+            setBanks(data);
+
+        }
+        catch(error)
+        {
             console.error("Registration error:", error);
         }
         finally
@@ -212,14 +261,23 @@ export default function RegisterPage()
                         </div>
 
                         <div>
-                            <InputField label="Password" type="password" name="password" value={formData.password} onChange={handleChange} />
-                            {errors.password && <p className="text-red-500 text-xs px-4 mt-1">{errors.password}</p>}
+                            <label className="text-[#111518] text-sm font-medium leading-normal px-4 block mb-2">Bank Name</label>
+                            <select
+                                name="bankId" 
+                                value={formData.bankId}
+                                onChange={handleChange}
+                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111518] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f4] h-14 placeholder:text-[#637788] p-4 text-base font-normal leading-normal"
+                            >
+                                <option value="">Select your bank</option>
+                                {banks.map(bank => (
+                                    <option key={bank.id} value={bank.id}>
+                                        {bank.bankName}
+                                    </option>
+                                ))}
+                            </select>
+                            {errors.bankId && <p className="text-red-500 text-xs px-4 mt-1">{errors.bankId}</p>}
                         </div>
-                        
-                        <div>
-                            <InputField label="Confirm Password" type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
-                            {errors.confirmPassword && <p className="text-red-500 text-xs px-4 mt-1">{errors.confirmPassword}</p>}
-                        </div>
+
 
                         <div>
                             <InputField label="Annual Income" type="number" name="income" value={formData.income} onChange={handleChange} />
@@ -229,6 +287,16 @@ export default function RegisterPage()
                         <div>
                             <InputField label="Occupation" type="text" name="occupation" value={formData.occupation} onChange={handleChange} />
                             {errors.occupation && <p className="text-red-500 text-xs px-4 mt-1">{errors.occupation}</p>}
+                        </div>
+
+                        <div>
+                            <InputField label="Password" type="password" name="password" value={formData.password} onChange={handleChange} />
+                            {errors.password && <p className="text-red-500 text-xs px-4 mt-1">{errors.password}</p>}
+                        </div>
+                        
+                        <div>
+                            <InputField label="Confirm Password" type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
+                            {errors.confirmPassword && <p className="text-red-500 text-xs px-4 mt-1">{errors.confirmPassword}</p>}
                         </div>
 
                         <div className="flex flex-col items-center px-4 py-3">
