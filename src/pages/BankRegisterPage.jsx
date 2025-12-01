@@ -117,7 +117,7 @@ export default function BankRegisterPage()
 
         try
         {
-            const response = await fetch('http://localhost:2010/api/auth/register', {
+            const response = await fetch('http://localhost:2010/api/auth/bank/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -125,10 +125,10 @@ export default function BankRegisterPage()
                 body: JSON.stringify({
                     bankName: formData.bankName,
                     licenseNumber: formData.licenseNumber,
-                    head_office_address: formData.head_office_address,
+                    headOfficeAddress: formData.head_office_address,
                     contactEmail: formData.contactEmail,
                     contactPhone: formData.contactPhone,
-                    password: formData.password,
+                    passwordHash: formData.password,
                 }),
             });
 
