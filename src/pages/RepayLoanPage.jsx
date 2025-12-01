@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import CustomerHeader from '../components/CustomerHeader';
 import Sidebar from '../components/Common/Sidebar';
 import LoanCardSkeleton from '../components/Common/LoanCardSkeleton';
+import { toast } from 'sonner';
+import { getCustomerIdFromToken } from '../utils/jwtHelper';
 
 export default function RepayLoanPage() {
     const { loanId } = useParams();
@@ -23,10 +25,24 @@ export default function RepayLoanPage() {
         fetchLoanDetails();
     }, [loanId]);
 
+    useEffect(() => {
+        if (error) {
+            toast.error(error);
+        }
+    }, [error]);
+
+    // useEffect(() => {
+    //     if (success) {
+    //         toast.success('Payment processed successfully!');
+    //     }
+    // }, [success]);
+
     const fetchLoanDetails = async () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
+
+            const customerId = getCustomerIdFromToken(token);
 
             if (!token) {
                 setError('Authentication token not found. Please log in again.');
@@ -34,7 +50,7 @@ export default function RepayLoanPage() {
                 return;
             }
 
-            const response = await fetch(`http://localhost:2010/api/loans/${loanId}`, {
+            const response = await fetch(`http://localhost:2010/api/loans/${loanId}/customerId/${customerId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -124,10 +140,14 @@ export default function RepayLoanPage() {
             setTimeout(() => {
                 navigate('/repayment');
             }, 2000);
-        } catch (err) {
+        } 
+        catch (err) 
+        {
             setError(err.message);
             console.error('Error processing payment:', err);
-        } finally {
+        } 
+        finally 
+        {
             setSubmitting(false);
         }
     };
@@ -173,16 +193,6 @@ export default function RepayLoanPage() {
                             {[...Array(2)].map((_, index) => (
                                 <LoanCardSkeleton key={index} />
                             ))}
-                        </div>
-                    ) : error && !success ? (
-                        <div className="mx-4 mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-                            <p className="text-red-800 text-sm font-medium">{error}</p>
-                            <button
-                                onClick={() => navigate('/repayment')}
-                                className="mt-3 text-red-800 underline text-sm hover:text-red-900"
-                            >
-                                Go Back to Repayment
-                            </button>
                         </div>
                     ) : success ? (
                         <div className="mx-4 mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">

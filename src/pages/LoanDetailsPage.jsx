@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CustomerHeader from '../components/CustomerHeader';
 import Sidebar from '../components/Common/Sidebar';
+import { getCustomerIdFromToken } from '../utils/jwtHelper';
 
 export default function LoanDetailsPage() {
     const { loanId } = useParams();
@@ -37,13 +38,18 @@ export default function LoanDetailsPage() {
             setLoading(true);
             const token = localStorage.getItem('token');
 
+            const customerId = getCustomerIdFromToken(token);
+
+            console.log('Customer ID from token:', customerId);
+
+
             if (!token) {
                 setError('Authentication token not found. Please log in again.');
                 navigate('/login');
                 return;
             }
 
-            const loandetailsresponse = await fetch(`http://localhost:2010/api/loans/${loanId}`, {
+            const loandetailsresponse = await fetch(`http://localhost:2010/api/loans/${loanId}/customerId/${customerId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,6 +122,11 @@ export default function LoanDetailsPage() {
         {
             const token = localStorage.getItem('token');
 
+            const customerId = getCustomerIdFromToken(token);
+
+            console.log('Customer ID from token:', customerId);
+
+
             if (!token) 
             {
                 setError('Authentication token not found. Please log in again.');
@@ -123,7 +134,7 @@ export default function LoanDetailsPage() {
                 return;
             }
 
-            const response = await fetch(`http://localhost:2010/api/customers/profile`, {
+            const response = await fetch(`http://localhost:2010/api/customers/profile/${customerId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

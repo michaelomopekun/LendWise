@@ -147,7 +147,7 @@ export default function BankRegisterPage()
 
             console.log("Registration successful:", data);
 
-            navigate('/bankLogin');
+            navigate('/bank/login');
         }
         catch(error)
         {
@@ -230,7 +230,7 @@ export default function BankRegisterPage()
 
                     <p className="text-[#637788] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center underline cursor-pointer">
                         Already have an account? 
-                        <a href="/bankLogin" className="text-[#1f89e5]">Log in</a>
+                        <a href="/bank/login" className="text-[#1f89e5]">Log in</a>
                     </p>
 
                 </div>

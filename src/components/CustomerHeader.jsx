@@ -10,7 +10,7 @@ export default function CustomerHeader()
 
     const navigationLinks = [
         { label: 'Dashboard', path: '/dashboard' },
-        { label: 'Loans', path: '/loan_request' },
+        { label: 'Loans', path: '/loan/request' },
         { label: 'Repayment', path: '/repayment' },
         // { label: 'Reports', path: '/reports' },
         // { label: 'Settings', path: '/settings' }

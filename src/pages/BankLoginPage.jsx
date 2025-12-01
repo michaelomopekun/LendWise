@@ -102,7 +102,7 @@ export default function BankLoginPage(){
 
             console.log("Login successful:", data);
 
-            navigate('/bankDashboard');
+            navigate('/bank/dashboard');
         }
         catch(error)
         {
@@ -161,7 +161,7 @@ export default function BankLoginPage(){
 
                         <p className="text-[#637788] text-sm font-normal leading-normal pb-3 pt-1 px-4 text-center underline cursor-pointer">
                             Don't have an account? 
-                            <a href="/onboardBank" className="text-[#1f89e5]">Sign up</a>
+                            <a href="/onboard/bank" className="text-[#1f89e5]">Sign up</a>
                         </p>
 
                     </div>

@@ -3,25 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import BankHeader from '../components/CustomerHeader';
 import BankSidebar from '../components/common/BankSidebar';
 
-export default function BankDashboardPage() 
+export default function BankApplicationsPage() 
 {
     const navigate = useNavigate();
-    const [activeMenu, setActiveMenu] = useState('dashboard');
+    const [activeMenu, setActiveMenu] = useState('applications');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [metrics, setMetrics] = useState({
-        totalLoanApplication: 0,
-        totalLoanApproved: 0,
-        totalLoanRejected: 0,
-        totalLoanPending: 0,
-        latestLoanApplication: []
-    });
+    const [pendingLoans, setPendingLoans] = useState([]);
 
     useEffect(() => {
-        fetchMetrics();
+        fetchPendingLoans();
     }, []);
 
-    const fetchMetrics = async () => {
+    const fetchPendingLoans = async () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
@@ -32,7 +26,7 @@ export default function BankDashboardPage()
                 return;
             }
 
-            const response = await fetch('http://localhost:2010/api/banks/metrics', {
+            const response = await fetch('http://localhost:2010/api/banks/loans/pending', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,15 +37,15 @@ export default function BankDashboardPage()
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || 'Failed to fetch metrics');
+                throw new Error(data.message || 'Failed to fetch pending loans');
             }
 
-            console.log('Metrics fetched successfully:', data);
-            setMetrics(data);
+            console.log('Pending loans fetched successfully:', data);
+            setPendingLoans(data.loans || []);
 
         } catch (err) {
             setError(err.message);
-            console.error('Error fetching metrics:', err);
+            console.error('Error fetching pending loans:', err);
         } finally {
             setLoading(false);
         }
@@ -77,27 +71,13 @@ export default function BankDashboardPage()
         });
     };
 
-    const getStatusColor = (status) => {
-        switch (status?.toLowerCase()) {
-            case 'active':
-                return 'bg-green-100 text-green-800';
-            case 'pending':
-                return 'bg-yellow-100 text-yellow-800';
-            case 'rejected':
-                return 'bg-red-100 text-red-800';
-            default:
-                return 'bg-gray-100 text-gray-800';
-        }
+    const handleViewDetails = (loanId, customerId) => {
+        navigate(`/bank/loans/${loanId}/${customerId}`);
     };
 
     const SkeletonLoader = () => (
         <div className="animate-pulse space-y-6 p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="h-32 bg-gray-200 rounded-lg"></div>
-                <div className="h-32 bg-gray-200 rounded-lg"></div>
-                <div className="h-32 bg-gray-200 rounded-lg"></div>
-                <div className="h-32 bg-gray-200 rounded-lg"></div>
-            </div>
+            <div className="h-12 bg-gray-200 rounded-lg w-1/3"></div>
             <div className="h-64 bg-gray-200 rounded-lg"></div>
         </div>
     );
@@ -146,100 +126,64 @@ export default function BankDashboardPage()
                 <main className="flex-1 overflow-auto">
                     {/* Header */}
                     <div className="flex flex-wrap justify-between gap-3 p-4">
-                        <div className="flex min-w-72 flex-col gap-3">
-                            <p className="text-[#111518] tracking-light text-[32px] font-bold leading-tight">Bank Dashboard</p>
-                            <p className="text-[#637788] text-sm font-normal leading-normal">
-                                Welcome back! Here's an overview of your loan applications.
-                            </p>
-                        </div>
+                        <p className="text-[#111518] tracking-light text-[32px] font-bold leading-tight min-w-72">
+                            Pending Loan Requests
+                        </p>
                     </div>
 
-                    {/* Key Metrics */}
-                    <h2 className="text-[#111518] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
-                        Key Metrics
-                    </h2>
-                    <div className="flex flex-wrap gap-4 p-4">
-                        <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#f0f2f4]">
-                            <p className="text-[#111518] text-base font-medium leading-normal">Total Applications</p>
-                            <p className="text-[#111518] tracking-light text-2xl font-bold leading-tight">
-                                {metrics.totalLoanApplication}
-                            </p>
-                        </div>
-                        <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#f0f2f4]">
-                            <p className="text-[#111518] text-base font-medium leading-normal">Approved</p>
-                            <p className="text-[#111518] tracking-light text-2xl font-bold leading-tight text-green-600">
-                                {metrics.totalLoanApproved}
-                            </p>
-                        </div>
-                        <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#f0f2f4]">
-                            <p className="text-[#111518] text-base font-medium leading-normal">Pending</p>
-                            <p className="text-[#111518] tracking-light text-2xl font-bold leading-tight text-yellow-600">
-                                {metrics.totalLoanPending}
-                            </p>
-                        </div>
-                        <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#f0f2f4]">
-                            <p className="text-[#111518] text-base font-medium leading-normal">Rejected</p>
-                            <p className="text-[#111518] tracking-light text-2xl font-bold leading-tight text-red-600">
-                                {metrics.totalLoanRejected}
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Latest Applications */}
-                    <h2 className="text-[#111518] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
-                        Latest Applications
-                    </h2>
+                    {/* Applications Table */}
                     <div className="px-4 py-3 @container">
                         <div className="flex overflow-x-auto rounded-lg border border-[#dce1e5] bg-white">
                             <table className="flex-1 min-w-max">
                                 <thead>
                                     <tr className="bg-white">
                                         <th className="px-4 py-3 text-left text-[#111518] w-[400px] text-sm font-medium leading-normal">
-                                            Applicant Name
+                                            Customer Name
+                                        </th>
+                                        <th className="px-4 py-3 text-left text-[#111518] w-[400px] text-sm font-medium leading-normal">
+                                            Amount
                                         </th>
                                         <th className="px-4 py-3 text-left text-[#111518] w-[400px] text-sm font-medium leading-normal">
                                             Loan Type
                                         </th>
                                         <th className="px-4 py-3 text-left text-[#111518] w-[400px] text-sm font-medium leading-normal">
-                                            Amount
+                                            Date
                                         </th>
                                         <th className="px-4 py-3 text-left text-[#111518] w-60 text-sm font-medium leading-normal">
-                                            Status
-                                        </th>
-                                        <th className="px-4 py-3 text-left text-[#111518] w-[400px] text-sm font-medium leading-normal">
-                                            Date Applied
+                                            Action
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {metrics.latestLoanApplication.length > 0 ? (
-                                        metrics.latestLoanApplication.map((application, index) => (
-                                            <tr key={index} className="border-t border-t-[#dce1e5]">
+                                    {pendingLoans.length > 0 ? (
+                                        pendingLoans.map((loan) => (
+                                            <tr key={loan.id} className="border-t border-t-[#dce1e5]">
                                                 <td className="h-[72px] px-4 py-2 w-[400px] text-[#111518] text-sm font-normal leading-normal">
-                                                    {application.firstName || 'N/A'} {application.lastName || 'N/A'}
+                                                    {loan.firstName || ''} {loan.lastName || ''}
                                                 </td>
                                                 <td className="h-[72px] px-4 py-2 w-[400px] text-[#637788] text-sm font-normal leading-normal">
-                                                    {application.loanTypeName || 'N/A'}
+                                                    {formatCurrency(loan.amount)}
                                                 </td>
                                                 <td className="h-[72px] px-4 py-2 w-[400px] text-[#637788] text-sm font-normal leading-normal">
-                                                    {formatCurrency(application.amount)}
+                                                    {loan.loanTypeName || 'N/A'}
                                                 </td>
-                                                <td className="h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                                                <td className="h-[72px] px-4 py-2 w-[400px] text-[#637788] text-sm font-normal leading-normal">
+                                                    {formatDate(loan.createdAt)}
+                                                </td>
+                                                <td className="h-[72px] px-4 py-2 w-60 text-sm font-bold leading-normal tracking-[0.015em]">
                                                     <button
-                                                        className={`flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 text-sm font-medium leading-normal w-full ${getStatusColor(application.status)}`}
+                                                        onClick={() => handleViewDetails(loan.id, loan.customerId)}
+                                                        className="text-[#1f89e5] hover:text-[#1570c4] transition-colors"
                                                     >
-                                                        <span className="truncate capitalize">{application.status || 'N/A'}</span>
+                                                        View Details
                                                     </button>
-                                                </td>
-                                                <td className="h-[72px] px-4 py-2 w-[400px] text-[#637788] text-sm font-normal leading-normal">
-                                                    {formatDate(application.createdAt)}
                                                 </td>
                                             </tr>
                                         ))
                                     ) : (
                                         <tr className="border-t border-t-[#dce1e5]">
                                             <td colSpan="5" className="h-[72px] px-4 py-2 text-center text-[#637788] text-sm font-normal leading-normal">
-                                                No loan applications found
+                                                No pending loan applications found
                                             </td>
                                         </tr>
                                     )}

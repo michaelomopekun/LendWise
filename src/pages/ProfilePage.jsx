@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomerHeader from '../components/CustomerHeader';
 import Sidebar from '../components/Common/Sidebar';
+import { getCustomerIdFromToken } from '../utils/jwtHelper';
 
 export default function ProfilePage() {
     const navigate = useNavigate();
@@ -21,13 +22,18 @@ export default function ProfilePage() {
             setLoading(true);
             const token = localStorage.getItem('token');
 
+            const customerId = getCustomerIdFromToken(token);
+
+            console.log('Customer ID from token:', customerId);
+
+
             if (!token) {
                 setError('Authentication token not found. Please log in again.');
                 navigate('/login');
                 return;
             }
 
-            const response = await fetch('http://localhost:2010/api/customers/profile', {
+            const response = await fetch(`http://localhost:2010/api/customers/profile/${customerId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

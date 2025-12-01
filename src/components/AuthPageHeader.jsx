@@ -9,7 +9,7 @@ export default function AuthPageHeader({ AdminView }) {
     const authLinks = [
         { label: 'Get Started', path: '/register', style: 'bg-[#1f89e5] text-white' },
         { label: 'Log in as a Customer', path: '/login', style: 'bg-[#f0f2f4] text-[#111518]' },
-        { label: 'Log in as a Bank', path: '/bankLogin', style: 'bg-[#f0f2f4] text-[#111518]' },
+        { label: 'Log in as a Bank', path: '/bank/login', style: 'bg-[#f0f2f4] text-[#111518]' },
     ];
 
     let excludeFromAdminView = null;

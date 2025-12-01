@@ -93,7 +93,7 @@ export default function LoanPage() {
     };
 
     const handleNewLoan = () => {
-        navigate('/loan_request');
+        navigate('/loan/request');
     };
 
     const formatCurrency = (amount) => {
