@@ -103,8 +103,8 @@ export default function DashboardPage()
                 <div className="flex-1 overflow-auto">
                     <div className="flex flex-wrap justify-between gap-3 p-4">
                         <div className="flex min-w-72 flex-col gap-3">
-                            <p className="text-[#111518] tracking-light text-[32px] font-bold leading-tight">Loans Overview</p>
-                            <p className="text-[#637788] text-sm font-normal leading-normal">Manage and view your loan information</p>
+                            {/* <p className="text-[#111518] tracking-light text-[32px] font-bold leading-tight">Loans Overview</p>
+                            <p className="text-[#637788] text-sm font-normal leading-normal">Manage and view your loan information</p> */}
                         </div>
                     </div>
 

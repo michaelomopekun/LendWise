@@ -76,7 +76,7 @@ export default function BankLoginPage(){
 
         try
         {
-            const response = await fetch('http://localhost:2010/api/auth/bankLogin', {
+            const response = await fetch('http://localhost:2010/api/auth/bank/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

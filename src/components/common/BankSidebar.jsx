@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HouseIcon, UsersIcon, ApplicationsIcon,HandCoinsIcon, CreditCardIcon, PresentationChartIcon, GearIcon } from './Icons';
+import { HouseIcon, UsersIcon, ApplicationsIcon,HandCoinsIcon, CreditCardIcon, PresentationChartIcon, GearIcon, WalletIcon } from './Icons';
 
 
 
@@ -13,7 +13,7 @@ export default function BankSidebar({ activeMenu = 'dashboard', onMenuChange })
         { id: 'dashboard', label: 'Dashboard', icon: HouseIcon, path: '/bank/dashboard' },
         { id: 'profile', label: 'Profile', icon: UsersIcon, path: '/bank/profile' },
         { id: 'applications', label: 'Applications', icon: ApplicationsIcon, path: '/bank/applications' },
-        // { id: 'loans', label: 'Loans', icon: HandCoinsIcon, path: '/loans' },
+        { id: 'wallet', label: 'Wallet', icon: WalletIcon, path: '/wallet' },
         // { id: 'repayments', label: 'Repayments', icon: CreditCardIcon, path: '/repayment' },
         // { id: 'reports', label: 'Reports', icon: PresentationChartIcon, path: '/reports' }
     ];

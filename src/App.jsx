@@ -15,6 +15,7 @@ import ProfilePage from './pages/ProfilePage';
 import BankRegisterPage from './pages/BankRegisterPage';
 import BankApplicationsPage from './pages/BankApplicationsPage';
 import BankLoanApplicationDetailPage from './pages/BankLoanApplicationDetailPage';
+import WalletPage from './pages/WalletPage';
 
 
 function App() 
@@ -122,6 +123,15 @@ function App()
                         element={
                             <ProtectedRoute>
                                 <BankLoanApplicationDetailPage />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path='/wallet'
+                        element={
+                            <ProtectedRoute>
+                                <WalletPage />
                             </ProtectedRoute>
                         }
                     />

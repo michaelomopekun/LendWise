@@ -3,14 +3,14 @@ export default function UserProfile({ userName = "Ethan Harper", customerId = "7
     return (
         <div className="flex p-4 flex-col gap-4 md:flex-row md:justify-between md:items-center">
             <div className="flex gap-4">
-                <div
+                {/* <div
                     className="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-32 h-32 flex-shrink-0"
                     style={{
                         backgroundImage: `url("${avatarUrl}")`
                     }}
-                ></div>
+                ></div> */}
                 <div className="flex flex-col justify-center">
-                    <p className="text-[#111518] text-[22px] font-bold leading-tight tracking-[-0.015em]">{userName}</p>
+                    <p className="text-[#111518] text-[22px] font-bold leading-tight tracking-[-0.015em]">Hey, Welcome Back!</p>
                     {/* <p className="text-[#637788] text-base font-normal leading-normal">Customer ID: {customerId}</p>
                     <p className="text-[#637788] text-base font-normal leading-normal">Joined: {joinedDate}</p> */}
                 </div>

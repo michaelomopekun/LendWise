@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HouseIcon, UsersIcon, HandCoinsIcon, CreditCardIcon, PresentationChartIcon, GearIcon } from './Icons';
+import { HouseIcon, UsersIcon, HandCoinsIcon, CreditCardIcon, PresentationChartIcon, GearIcon, WalletIcon } from './Icons';
 
 
 
@@ -14,7 +14,8 @@ export default function Sidebar({ activeMenu = 'dashboard', onMenuChange })
         { id: 'profile', label: 'Profile', icon: UsersIcon, path: '/profile' },
         { id: 'loans', label: 'Loans', icon: HandCoinsIcon, path: '/loans' },
         { id: 'repayments', label: 'Repayments', icon: CreditCardIcon, path: '/repayment' },
-        { id: 'reports', label: 'Reports', icon: PresentationChartIcon, path: '/reports' }
+        { id: 'wallet', label: 'Wallet', icon: WalletIcon, path: '/wallet' },
+
     ];
 
     const handleMenuClick = (menuId, path) =>{
