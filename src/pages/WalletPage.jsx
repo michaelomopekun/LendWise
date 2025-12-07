@@ -4,6 +4,7 @@ import CustomerHeader from '../components/CustomerHeader';
 import BankSidebar from '../components/Common/BankSidebar';
 import Sidebar from '../components/Common/Sidebar';
 import { toast } from 'sonner';
+import API_ENDPOINTS from '../config/api';
 
 export default function WalletPage() 
 {
@@ -60,7 +61,7 @@ export default function WalletPage()
 
     const fetchWallet = async (token) => {
         try {
-            const response = await fetch('http://localhost:2010/api/wallet', {
+            const response = await fetch(API_ENDPOINTS.WALLET.GET_DETAILS, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,7 +88,7 @@ export default function WalletPage()
 
     const fetchTransactions = async (token) => {
         try {
-            const response = await fetch('http://localhost:2010/api/wallet/transactions', {
+            const response = await fetch(API_ENDPOINTS.WALLET.GET_TRANSACTIONS, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -121,7 +122,7 @@ export default function WalletPage()
             setAddFundsLoading(true);
             const token = localStorage.getItem('token');
 
-            const response = await fetch('http://localhost:2010/api/wallet/fund', {
+            const response = await fetch(API_ENDPOINTS.WALLET.ADD_FUNDS, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -172,7 +173,7 @@ export default function WalletPage()
             setWithdrawLoading(true);
             const token = localStorage.getItem('token');
 
-            const response = await fetch('http://localhost:2010/api/wallet/withdraw', {
+            const response = await fetch(API_ENDPOINTS.WALLET.WITHDRAW_FUNDS, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

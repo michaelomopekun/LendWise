@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/AuthPageHeader';
 import InputField from '../components/InputField';
 import AuthForm from '../components/AuthForm';
+import API_ENDPOINTS from '../config/api';
 
 export default function LoginPage(){
 
@@ -76,7 +77,7 @@ export default function LoginPage(){
 
         try
         {
-            const response = await fetch('http://localhost:2010/api/auth/login', {
+            const response = await fetch(API_ENDPOINTS.AUTH.LOGIN, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

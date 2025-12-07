@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import CustomerHeader from '../components/CustomerHeader';
 import Sidebar from '../components/Common/Sidebar';
 import LoanCardSkeleton from '../components/Common/LoanCardSkeleton';
+import API_ENDPOINTS from '../config/api';
 
 export default function ActiveLoanPage() {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function ActiveLoanPage() {
                 return;
             }
 
-            const response = await fetch('http://localhost:2010/api/loans/active', {
+            const response = await fetch(API_ENDPOINTS.LOANS.GET_ACTIVE, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

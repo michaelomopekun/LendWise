@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import CustomerHeader from '../components/CustomerHeader';
 import Sidebar from '../components/Common/Sidebar';
 import { getCustomerIdFromToken } from '../utils/jwtHelper';
+import API_ENDPOINTS from '../config/api';
 
 export default function LoanDetailsPage() {
     const { loanId } = useParams();
@@ -49,7 +50,7 @@ export default function LoanDetailsPage() {
                 return;
             }
 
-            const loandetailsresponse = await fetch(`http://localhost:2010/api/loans/${loanId}/customerId/${customerId}`, {
+            const loandetailsresponse = await fetch(`${API_ENDPOINTS.LOANS.GET_BY_ID(loanId, customerId)}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,7 +87,7 @@ export default function LoanDetailsPage() {
                 return;
             }
 
-            const repaymenthistoryresponse = await fetch(`http://localhost:2010/api/loans/${loanId}/repayment_history`, {
+            const repaymenthistoryresponse = await fetch(`${API_ENDPOINTS.LOANS.GET_BY_ID(loanId)}/repayment_history`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -134,7 +135,7 @@ export default function LoanDetailsPage() {
                 return;
             }
 
-            const response = await fetch(`http://localhost:2010/api/customers/profile/${customerId}`, {
+            const response = await fetch(`${API_ENDPOINTS.CUSTOMERS.PROFILE_BY_ID(customerId)}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

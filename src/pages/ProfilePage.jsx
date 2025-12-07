@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import CustomerHeader from '../components/CustomerHeader';
 import Sidebar from '../components/Common/Sidebar';
 import { getCustomerIdFromToken } from '../utils/jwtHelper';
+import API_ENDPOINTS from '../config/api';
 
 export default function ProfilePage() {
     const navigate = useNavigate();
@@ -33,7 +34,7 @@ export default function ProfilePage() {
                 return;
             }
 
-            const response = await fetch(`http://localhost:2010/api/customers/profile/${customerId}`, {
+            const response = await fetch(`${API_ENDPOINTS.CUSTOMERS.PROFILE_BY_ID(customerId)}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -64,7 +65,7 @@ export default function ProfilePage() {
         try {
             const token = localStorage.getItem('token');
 
-            const response = await fetch(`http://localhost:2010/api/loans?customerId=${customerId}`, {
+            const response = await fetch(`${API_ENDPOINTS.LOANS.GET_ALL}?customerId=${customerId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
